@@ -1,0 +1,32 @@
+The dataset in this directory is licensed under the
+Creative Commons Attribution 4.0 International License (CC BY 4.0).
+
+Full text: https://creativecommons.org/licenses/by/4.0/legalcode
+Summary:   https://creativecommons.org/licenses/by/4.0/
+
+You are free to share and adapt the material for any purpose, including
+commercially, provided you give appropriate credit, link to the licence, and
+indicate if changes were made.
+
+Attribution:
+
+  Agrawal, S., Akhtar, A., Dengler, N., & Bennewitz, M. (2026).
+  Point of View: How Perspective Affects Perceived Robot Sociability.
+  arXiv:2603.28272. https://arxiv.org/abs/2603.28272
+
+-------------------------------------------------------------------------------
+
+NOTE ON SCOPE
+
+This licence covers the data files in this directory only. It does not extend
+to the software in this repository (MIT, see ../LICENSE) or to bundled
+third-party assets (see ../THIRD_PARTY_NOTICES.md).
+
+NOTE ON HUMAN-SUBJECT DATA
+
+These records are pseudonymised, not anonymised. Direct identifiers and the
+strongest quasi-identifiers have been removed or coarsened, but with a sample
+of this size re-identification cannot be excluded. Do not attempt to
+re-identify participants, and do not combine this dataset with other sources
+for that purpose. See ../docs/ETHICS.md for the approval under which it was
+collected and the transformations applied.

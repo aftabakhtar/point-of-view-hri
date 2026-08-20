@@ -1,0 +1,25 @@
+{
+  "study_title": "Demo Questionnaire",
+  "questions": [
+    {
+      "question_id": 2,
+      "question_text": "Using the scale provided, how closely is the word <b><u>Trustworthy</u></b> \nassociated with the robot's behaviour?",
+      "scale_labels": ["Not at\nAll", "Totally"]
+    },
+    {
+      "question_id": 4,
+      "question_text": "Using the scale provided, how closely is the word <b><u>Friendly</u></b> \nassociated with the robot's behaviour?",
+      "scale_labels": ["Not at\nAll", "Totally"]
+    },
+    {
+      "question_id": 5,
+      "question_text": "Using the scale provided, how closely is the word <b><u>Scary</u></b> \nassociated with the robot's behaviour?",
+      "scale_labels": ["Not at\nAll", "Totally"]
+    },
+    {
+      "question_id": 8,
+      "question_text": "Using the scale provided, how closely is the word <b><u>Weird</u></b> \nassociated with the robot's behaviour?",
+      "scale_labels": ["Not at\nAll", "Totally"]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+# Normalise line endings for text so Windows/Linux/macOS collaborators agree.
+* text=auto
+
+# Unity YAML. Merging these by hand is error-prone; route them through Unity's
+# own merge tool. Requires a one-time setup, see docs/SETUP.md.
+*.unity     merge=unityyamlmerge eol=lf
+*.prefab    merge=unityyamlmerge eol=lf
+*.asset     merge=unityyamlmerge eol=lf
+*.mat       merge=unityyamlmerge eol=lf
+*.anim      merge=unityyamlmerge eol=lf
+*.controller merge=unityyamlmerge eol=lf
+*.physicMaterial merge=unityyamlmerge eol=lf
+*.terrainlayer merge=unityyamlmerge eol=lf
+*.meta      eol=lf
+
+# Binary assets. Marked explicitly so git never tries to diff or convert them.
+*.mp4       binary
+*.png       binary
+*.jpg       binary
+*.tif       binary
+*.exr       binary
+*.fbx       binary
+*.dae       binary
+*.stl       binary
+*.obj       binary
+*.usd       binary
+*.wav       binary
+*.ttf       binary
+*.otf       binary
+*.pdf       binary
+
+# Stimulus videos are the largest tracked files. If this repo grows more of
+# them, enable Git LFS (`git lfs install && git lfs track "*.mp4"`) and this
+# line takes effect.
+# *.mp4 filter=lfs diff=lfs merge=lfs -text
+
+# Keep vendored third-party trees out of GitHub's language statistics.
+Assets/Models/hsr_description_v2/** linguist-vendored
+"Assets/TextMesh Pro/**" linguist-vendored

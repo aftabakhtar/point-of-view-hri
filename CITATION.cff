@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+title: >-
+  Point of View: How Perspective Affects Perceived Robot Sociability
+  (VR study platform)
+message: >-
+  If you use this software or the accompanying data, please cite the
+  paper below.
+type: software
+authors:
+  - given-names: Aftab
+    family-names: Akhtar
+    affiliation: University of Bonn
+  - given-names: Subham
+    family-names: Agrawal
+    affiliation: University of Bonn
+  - given-names: Nils
+    family-names: Dengler
+    affiliation: University of Bonn
+  - given-names: Maren
+    family-names: Bennewitz
+    affiliation: University of Bonn
+license: MIT
+repository-code: "https://github.com/REPLACE-WITH-YOUR-USERNAME/robot-perspective-vr-study"
+keywords:
+  - human-robot interaction
+  - social navigation
+  - virtual reality
+  - robot trajectory evaluation
+  - perspective taking
+preferred-citation:
+  type: article
+  title: "Point of View: How Perspective Affects Perceived Robot Sociability"
+  authors:
+    - given-names: Subham
+      family-names: Agrawal
+    - given-names: Aftab
+      family-names: Akhtar
+    - given-names: Nils
+      family-names: Dengler
+    - given-names: Maren
+      family-names: Bennewitz
+  year: 2026
+  journal: arXiv preprint
+  identifiers:
+    - type: other
+      value: "arXiv:2603.28272"
+      description: arXiv preprint identifier
+  url: "https://arxiv.org/abs/2603.28272"

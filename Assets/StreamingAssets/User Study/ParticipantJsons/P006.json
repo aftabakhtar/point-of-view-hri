@@ -1,0 +1,196 @@
+{
+  "participant_id": "P006",
+  "study_metadata": {
+    "study_version": "1.0",
+    "date_created": "2026-01-09",
+    "counterbalancing_sequence": 6
+  },
+  "pedestrians": [
+    {
+      "ped_id": 0,
+      "start_position": {
+        "x": -0.1072,
+        "y": 0.0,
+        "z": -1.58
+      },
+      "start_orientation": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "ped_id": 1,
+      "start_position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -0.7973022
+      },
+      "start_orientation": {
+        "x": 0.0,
+        "y": -90.0,
+        "z": 0.0
+      }
+    },
+    {
+      "ped_id": 2,
+      "start_position": {
+        "x": -0.04098,
+        "y": 0.0,
+        "z": 0.01169777
+      },
+      "start_orientation": {
+        "x": 0.0,
+        "y": -90,
+        "z": 0.0
+      }
+    },
+    {
+      "ped_id": 3,
+      "start_position": {
+        "x": 1.367,
+        "y": 0.0,
+        "z": 0.4526
+      },
+      "start_orientation": {
+        "x": 0.0,
+        "y": 90,
+        "z": 0.0
+      }
+    },
+    {
+      "ped_id": 4,
+      "start_position": {
+        "x": 1.26,
+        "y": 0.0,
+        "z": -0.33
+      },
+      "start_orientation": {
+        "x": 0.0,
+        "y": 90,
+        "z": 0.0
+      }
+    },
+    {
+      "ped_id": 5,
+      "start_position": {
+        "x": 1.3,
+        "y": 0.0,
+        "z": -1.1389
+      },
+      "start_orientation": {
+        "x": 0.0,
+        "y": 90,
+        "z": 0.0
+      }
+    },
+    {
+      "ped_id": 100,
+      "start_position": {
+        "x": -57.3,
+        "y": 0.0,
+        "z": -241.1
+      },
+      "start_orientation": {
+        "x": 0.0,
+        "y": 180,
+        "z": 0.0
+      }
+    }
+  ],
+  "robot_trajectories": [
+    {
+      "trajectory_id": 0,
+      "trajectory_label": "A",
+      "trajectory_path": "Trajectories/our_w_nod_0_02.json"
+    },
+    {
+      "trajectory_id": 1,
+      "trajectory_label": "B",
+      "trajectory_path": "Trajectories/our_wo_nod_0_02.json"
+    },
+    {
+      "trajectory_id": 2,
+      "trajectory_label": "C",
+      "trajectory_path": "Trajectories/dwa_9s_0_02.json"
+    },
+    {
+      "trajectory_id": 100,
+      "trajectory_label": "Intro",
+      "trajectory_path": "Trajectories/Intro.json"
+    }
+  ],
+  "trials": [
+    {
+      "trial_id": -1,
+      "trajectory_id": 100,
+      "camera_type": "pedestrian",
+      "camera_target_ped_id": 4,
+      "duration_seconds": 10
+    },
+    {
+      "trial_id": 0,
+      "trajectory_id": 1,
+      "camera_type": "top_down",
+      "camera_target_ped_id": 100,
+      "duration_seconds": 16
+    },
+    {
+      "trial_id": 1,
+      "trajectory_id": 2,
+      "camera_type": "pedestrian",
+      "camera_target_ped_id": 3,
+      "duration_seconds": 10
+    },
+    {
+      "trial_id": 2,
+      "trajectory_id": 1,
+      "camera_type": "pedestrian",
+      "camera_target_ped_id": 5,
+      "duration_seconds": 10
+    },
+    {
+      "trial_id": 3,
+      "trajectory_id": 2,
+      "camera_type": "pedestrian",
+      "camera_target_ped_id": 5,
+      "duration_seconds": 10
+    },
+    {
+      "trial_id": 4,
+      "trajectory_id": 0,
+      "camera_type": "pedestrian",
+      "camera_target_ped_id": 3,
+      "duration_seconds": 10
+    },
+    {
+      "trial_id": 5,
+      "trajectory_id": 1,
+      "camera_type": "pedestrian",
+      "camera_target_ped_id": 3,
+      "duration_seconds": 10
+    },
+    {
+      "trial_id": 6,
+      "trajectory_id": 0,
+      "camera_type": "pedestrian",
+      "camera_target_ped_id": 5,
+      "duration_seconds": 10
+    },
+    {
+      "trial_id": 7,
+      "trajectory_id": 2,
+      "camera_type": "top_down",
+      "camera_target_ped_id": 100,
+      "duration_seconds": 16
+    },
+    {
+      "trial_id": 8,
+      "trajectory_id": 0,
+      "camera_type": "top_down",
+      "camera_target_ped_id": 100,
+      "duration_seconds": 16
+    }
+  ],
+  "questionnaire_path": "User Study/questionnaire.json"
+}
