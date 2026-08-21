@@ -197,13 +197,19 @@ pointing `MenuPlacement.centerEyeAnchor` at a desktop camera.
 ## Citing
 
 ```bibtex
-@article{agrawal2026pointofview,
-  title   = {Point of View: How Perspective Affects Perceived Robot Sociability},
-  author  = {Agrawal, Subham and Akhtar, Aftab and Dengler, Nils and Bennewitz, Maren},
-  journal = {arXiv preprint arXiv:2603.28272},
-  year    = {2026}
+@misc{agrawal2026pointviewperspectiveaffects,
+      title={{Point of View: How Perspective Affects Perceived Robot Sociability}},
+      author={Subham Agrawal and Aftab Akhtar and Nils Dengler and Maren Bennewitz},
+      year={2026},
+      eprint={2603.28272},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2603.28272},
 }
 ```
+
+This is the preprint citation, as exported by arXiv. If the paper appears in a
+venue, update this block and `CITATION.cff` together.
 
 ## Licence
 
