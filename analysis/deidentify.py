@@ -65,6 +65,7 @@ FIELD_TO_STEM = {
     "ethology and ai": "STEM",
     "geography": "STEM",          # natural science in this cohort's usage
     "arts": "non-STEM",
+    "translation": "non-STEM",    # languages/humanities
 }
 
 # Free-text education, normalised to the three levels the form intended.
@@ -97,8 +98,9 @@ ID_CORRECTIONS_BY_TIMESTAMP = {
     "3/24/2026 15:01:33": "P005",
 }
 
-# Pilot, tester and demo runs that are not study participants.
-EXCLUDED_IDS = {"P100", "DEMO001"}
+# Pilot, tester and demo runs. These are not study participants and are dropped
+# from every released file, not merely annotated.
+EXCLUDED_IDS = {"P100", "P013", "DEMO001"}
 
 # Trials expected per participant: the practice trial plus the nine conditions.
 EXPECTED_TRIALS = 10
@@ -113,16 +115,20 @@ def normalise_pid(raw):
     return f"P{int(m.group(1)):03d}"
 
 
-def band_age(raw):
+def exact_age(raw):
+    """Exact age is retained deliberately.
+
+    Banding it would make the mean and SD reported in the paper impossible to
+    recompute from the released data, and reproducibility was judged to outweigh
+    the additional disclosure risk. The risk is real but bounded: age plus gender
+    singles out roughly a third of the cohort, whereas the fields that pushed
+    that to 100% -- timestamp, country of origin, primary language -- remain
+    dropped. See docs/ETHICS.md.
+    """
     try:
-        age = int(str(raw).strip())
+        return str(int(str(raw).strip()))
     except (TypeError, ValueError):
         return ""
-    if age < 25:
-        return "18-24"
-    if age < 35:
-        return "25-34"
-    return "35+"
 
 
 def lookup(table, value, label, path):
@@ -155,7 +161,7 @@ def write_csv(path, fieldnames, rows):
 def deidentify_demographics(raw_path, out_path):
     rows = read_csv(raw_path)
     out_fields = [
-        "participant_id", "age_band", "gender", "education",
+        "participant_id", "age", "gender", "education",
         "field_of_study", "prior_robot_experience",
         "mobile_robot_familiarity", "vr_experience",
     ]
@@ -183,7 +189,7 @@ def deidentify_demographics(raw_path, out_path):
             "participant_id": pid,
             # Timestamp, country of origin and primary language are dropped
             # entirely -- see docs/ETHICS.md.
-            "age_band": band_age(row.get(COL_AGE)),
+            "age": exact_age(row.get(COL_AGE)),
             "gender": (row.get(COL_GENDER) or "").strip(),
             "education": lookup(EDUCATION_NORMALISED, row.get(COL_EDUCATION),
                                 "education", raw_path),
@@ -324,9 +330,9 @@ def main(argv=None):
     parser.add_argument("--skip-trials", action="store_true",
                         help="do not copy per-trial response JSONs")
     parser.add_argument("--age-stats", action="store_true",
-                        help="print exact age mean/SD from the raw export for "
-                             "reporting; these cannot be recovered from the "
-                             "banded release and are not written to disk")
+                        help="print age mean/SD computed from the raw export, "
+                             "as a cross-check that the release reproduces the "
+                             "figures reported in the paper")
     args = parser.parse_args(argv)
 
     for stream in (sys.stdout, sys.stderr):
@@ -376,9 +382,9 @@ def main(argv=None):
         if ages:
             mean = sum(ages) / len(ages)
             var = sum((a - mean) ** 2 for a in ages) / (len(ages) - 1)
-            print(f"\nage (from raw, NOT released): n={len(ages)} "
-                  f"mean={mean:.1f} sd={var ** 0.5:.1f} "
+            print(f"\nage: n={len(ages)} mean={mean:.1f} sd={var ** 0.5:.1f} "
                   f"range={min(ages)}-{max(ages)}")
+            print(f"     paper reports: N=24 mean=27.3 sd=3.6")
 
     # Coverage report -- mismatches usually mean a mislabelled ID upstream.
     print("\ncoverage:")

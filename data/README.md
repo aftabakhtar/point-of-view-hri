@@ -1,25 +1,27 @@
 # Dataset
 
-> ## ⚠️ This directory is empty in the repository as shipped
->
-> The de-identified dataset is **not committed yet**. Releasing human-subject
-> data requires confirming that the consent participants gave covers public
-> release — see [`../docs/ETHICS.md`](../docs/ETHICS.md), which still has
-> unfilled placeholders.
->
-> Once that is confirmed, generate this directory with one command:
->
-> ```bash
-> cd analysis
-> python deidentify.py --raw raw_data --out ../data
-> ```
->
-> `raw_data/` holds the original survey exports and is gitignored. It must never
-> be committed: the raw demographics export carries a second-precision
-> timestamp, country of origin and primary language, which together
-> re-identify participants in a cohort this size.
+De-identified data from the user study: demographics, NARS, exit questionnaire
+and the per-trial responses.
 
-## Contents once generated
+Generated from the raw survey exports by
+[`../analysis/deidentify.py`](../analysis/deidentify.py). The raw exports live
+in `analysis/raw_data/`, are gitignored, and must never be committed — they
+carry a second-precision timestamp, country of origin and primary language,
+which together single out every participant in a cohort this size.
+
+To regenerate:
+
+```bash
+cd analysis
+python deidentify.py --raw raw_data --out ../data
+```
+
+> **Please read [`../docs/ETHICS.md`](../docs/ETHICS.md) before reusing this
+> data.** It records the approval this was collected under, every
+> disclosure-control transformation applied, and the residual re-identification
+> risk, which is not zero.
+
+## Contents
 
 | File | Rows | Description |
 |---|---|---|
@@ -34,7 +36,7 @@
 | Column | Values |
 |---|---|
 | `participant_id` | `P001`… — pseudonym, joins across all files |
-| `age_band` | `18-24`, `25-34`, `35+` |
+| `age` | Exact age in years. Retained so the paper's M/SD stays recomputable; see `docs/ETHICS.md` for the trade-off |
 | `gender` | `Female`, `Male` |
 | `education` | `High school`, `Undergraduate`, `Graduate` |
 | `field_of_study` | `STEM`, `non-STEM` |
@@ -42,9 +44,10 @@
 | `mobile_robot_familiarity` | 1–5 (1 = not familiar) |
 | `vr_experience` | `Never`, `Occasionally`, `Frequently` |
 
-Timestamp, country of origin and primary language are **dropped**; age is
-**banded**; field of study is **collapsed** to a binary. Rationale in
-`docs/ETHICS.md`.
+Timestamp, country of origin and primary language are **dropped**; field of
+study is **collapsed** to a binary; exact age is **retained** so the paper's
+reported M/SD remains recomputable. Rationale and the measured residual risk are
+in `docs/ETHICS.md`.
 
 ## nars.csv
 
@@ -56,10 +59,19 @@ Fourteen items, 5-point Likert, in form order. Subscales (Nomura et al., 2006):
 | S2 | Q1, Q2, Q11, Q13, Q14 | Social influence of robots |
 | S3 | Q3, Q5, Q6 | Emotions in interaction with robots |
 
-> **Reverse scoring:** `analyze_nars.py` names Q3, Q5 and Q6 as reversed but
-> does not apply the transformation, on the argument that the form already
-> presented them on a flipped scale. Confirm against `nars_items.txt` before
-> comparing to published norms.
+> **Reverse scoring: none is applied, and none is needed.** Standard NARS
+> reverses Q3, Q5 and Q6 because they are positively worded. The form used here
+> already presented those three on a flipped scale ("strongly agree" at 1), so
+> the released values are keyed the same direction as the rest of the
+> instrument — higher = more negative attitude — and must **not** be reversed
+> again.
+>
+> The correlation structure confirms this. All three subscales measure negative
+> attitudes and so correlate positively in the original instrument
+> (Nomura et al. 2006: r(S1,S2)=+0.408, r(S1,S3)=+0.119, r(S2,S3)=+0.165). This
+> sample reproduces those signs as released (+0.526, +0.328, +0.477). Reversing
+> Q3/Q5/Q6 would flip S3 to −0.328 and −0.477 against S1 and S2, contradicting
+> the published structure.
 
 ## exit_questionnaire.csv
 
@@ -103,19 +115,21 @@ conditions with:
 
 ## Known completeness gaps
 
-Confirm these against your own regeneration; they reflect the collected data,
-not a processing error.
+The release is complete and internally consistent: **24 participants**, each
+appearing in all four sources — demographics, NARS, exit questionnaire, and 10
+trial response files (240 files total). This matches the N = 24 analysed in the
+paper.
 
-- **25 participants** have complete VR trial data (10 files each).
-- **23** have demographics and NARS.
-- **24** have exit-questionnaire responses; `P010` has an exit response but no
-  demographics or NARS record.
-- The raw demographics export listed `P006` twice and omitted `P005`;
-  `deidentify.py` relabels the second row to `P005` based on a matching NARS
-  timestamp. See `docs/ETHICS.md`.
+Getting there required two corrections, both documented in `docs/ETHICS.md`:
 
-Twenty-seven configurations were generated, so participant IDs do not imply
-twenty-seven completed sessions.
+- **Excluded** `P100` (tester), `P013` (experimenter's test run) and `DEMO001`
+  (public walkthrough config) from every file.
+- **Relabelled** the second of two `P006` demographics rows to `P005`, resolved
+  by same-day pairing against the NARS export.
+
+Note that participant IDs are not contiguous and do not imply sample size:
+`P013`, `P017` and `P022` are absent, and 27 configurations were generated
+against 24 completed sessions.
 
 ## Licence
 

@@ -1,11 +1,4 @@
-"""Demographic descriptives for the released (de-identified) sample.
-
-Note: exact ages are not in the released dataset -- they are banded during
-de-identification because age combined with gender is identifying at this
-sample size. Mean and SD of age therefore cannot be recomputed here; the paper
-reports them from the raw data. Run `deidentify.py --age-stats` if you hold the
-raw exports and need those figures.
-"""
+"""Demographic descriptives for the released (de-identified) sample."""
 
 import pandas as pd
 
@@ -21,11 +14,9 @@ print("SAMPLE DEMOGRAPHICS")
 print("=" * 60)
 print(f"Participants: {len(df)}")
 
-print("\nAge band:")
-for band in ["18-24", "25-34", "35+"]:
-    count = int((df["age_band"] == band).sum())
-    if count:
-        print(f"  {band:<8} {count:>3}  ({count / len(df):.0%})")
+age = pd.to_numeric(df["age"], errors="coerce")
+print(f"\nAge: Mean {age.mean():.1f}, SD {age.std(ddof=1):.1f}, "
+      f"range {int(age.min())}-{int(age.max())}")
 
 print("\nGender:")
 for value, count in df["gender"].value_counts().items():
@@ -62,7 +53,8 @@ for value in ["Never", "Occasionally", "Frequently"]:
 
 print(
     f"\nSummary: {len(df)} participants "
-    f"({int((df['gender'] == 'Male').sum())} male, "
+    f"(M_age = {age.mean():.1f}, SD = {age.std(ddof=1):.1f}; "
+    f"{int((df['gender'] == 'Male').sum())} male, "
     f"{int((df['gender'] == 'Female').sum())} female), "
     f"reporting {level} familiarity with mobile robots "
     f"(M = {fam_mean:.1f}, SD = {fam_sd:.1f})."

@@ -26,17 +26,55 @@ head-nod gesture measurably improves perceived sociability.
 
 ## ⚠️ Read this before cloning
 
-**The scene will not render out of the box.** Five commercial asset packs
-(Renderpeople humans, a city set, trees, grass, terrain) cannot legally be
-redistributed, so they are absent. The project *opens and compiles cleanly*, but
-pedestrians and environment will be missing until you supply them yourself.
+**The scene will not render out of the box.** Five commercial asset packs cannot
+legally be redistributed, so they are absent. The project *opens and compiles
+cleanly* — the robot, the study logic, the trajectories and the questionnaire UI
+all work — but the pedestrians and the environment are missing until you supply
+them.
 
 Two ways forward:
 
 1. **Just want to see the study?** Download the pre-built Windows player from
    [Releases](../../releases) — assets are embedded, nothing to buy.
-2. **Want to modify or extend it?** Follow [`docs/SETUP.md`](docs/SETUP.md),
-   which lists every pack and where it must be installed.
+2. **Want to modify or extend it?** Acquire the packs below, then follow
+   [`docs/SETUP.md`](docs/SETUP.md).
+
+### Asset packs you need
+
+Install each at exactly the path shown — the scene resolves them by GUID, so
+folder names matter.
+
+| Pack | Where to get it | Install to |
+|---|---|---|
+| **Renderpeople** rigged scans: `rp_manuel_rigged_001`, `rp_nathan_rigged_003`, `rp_sophia_rigged_003`, plus their walking/idling/standing animation FBXs | [renderpeople.com](https://renderpeople.com/) (commercial, per-model) | `Assets/RP_Character/` |
+| **(HDRP) NYC-Like City Buildings Set (PBR)** | Unity Asset Store | `Assets/(HDRP) NYC-Like City Buildings Set (PBR)/` |
+| **Realistic Tree** (Ash, Birch, Chestnut, Spruce, Weeping Willow) | Unity Asset Store | `Assets/Realistic Tree/` |
+| **GrassFlowers** | Unity Asset Store | `Assets/GrassFlowers/` |
+| **Terrain Tools Sample Asset Pack** | Unity Asset Store — **free** | `Assets/TerrainSampleAssets/` |
+
+Only Renderpeople and the three Asset Store packs cost money; the terrain pack is
+free. Exact model names and the texture-editing step are in
+[`docs/SETUP.md`](docs/SETUP.md).
+
+### What a clone *without* the packs looks like
+
+Opening `SampleScene` prints around 50 `Missing Prefab` errors. **This is
+expected, not a broken clone.** Every one falls into these groups:
+
+| Missing prefab names | From |
+|---|---|
+| `0`, `1`, `2`, `3`, `4`, `5` | Renderpeople — the six pedestrians |
+| `building_1`, `building_2`, `building_3 (1)` | NYC buildings pack |
+| `Ash *`, `Birch *`, `Chestnut *`, `Spruce *`, `Spruce Group *`, `Weeping_Willow *` | Realistic Tree pack |
+
+You will also see `VR Camera attached to: 0 (Missing Prefab…)` — that is
+`VRCameraAttacher` validating against an absent pedestrian rig, and it clears
+once Renderpeople is installed.
+
+Anything **not** in that list is a genuine problem worth
+[opening an issue](../../issues) about. In particular, the Toyota HSR robot
+parts (`base`, `torso`, `head_pan`, `arm_flex`, `palm`, `laser`, `rgbd`…) ship
+with this repository and must **not** appear as missing.
 
 Also note the bundled Toyota HSR meshes are **CC BY-NC-ND 4.0**, so this
 repository as a whole is not commercially usable. See
@@ -63,7 +101,11 @@ Assets/                     Unity project (Unity 6000.2.7f2, URP, OpenXR + Meta 
 
 analysis/                   Python: config generation, plotting, power analysis
   inferential/              Intentionally empty — see the note below
-data/                       De-identified study data (if released; see docs/ETHICS.md)
+data/                       De-identified study data — see docs/ETHICS.md
+  demographics.csv          Coarsened: age banded, timestamps/country/language dropped
+  nars.csv                  NARS item responses + nars_items.txt codebook
+  exit_questionnaire.csv    Post-study coded responses
+  trial_responses/          Per-trial ratings, one JSON per trial
 docs/                       Setup, study design, data formats, session protocol
 ```
 

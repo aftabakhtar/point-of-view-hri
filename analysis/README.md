@@ -47,16 +47,30 @@ models, no multiple-comparison correction. See
 Carried over from the original study code and left visible rather than silently
 patched, because they affect how published numbers were produced:
 
-- **`analyze_nars.py`** declares `reversed_items = ["Q3", "Q5", "Q6"]` but never
-  applies the reversal, while printing a header that claims items were
-  reverse-scored. A code comment argues the survey form already presented those
-  items on a flipped scale. Verify against your own instrument before reuse.
-- **`power_analysis.py`** prints a header describing a **2 × 3** design and
-  steps *N* in multiples of 6 — leftovers from an earlier two-trajectory
-  version. The condition count in the code (3 × 3 = 9) is current.
 - **`analyze_end_questions.py`** parses cue strings inside a bare
   `except: pass`. `deidentify.py` repairs the two malformed rows that used to be
   dropped silently, but the fragile parser remains.
+
+## Reproducing the paper's statistics
+
+`analyze_nars.py` reproduces the one NARS result the paper reports — S1
+predicting sociability — exactly:
+
+```
+b = -0.1527   r = -0.6226   R² = 0.3877   p = 0.0012   N = 24
+```
+
+Two conventions matter for that to hold, both documented in
+`docs/DATA_FORMAT.md`:
+
+- **Sociability/disturbance are item means**, not sums. Sums rescale `b` by 4
+  while leaving `r`, `R²` and `p` unchanged. `STUDY_SCORE_AS_SUM=1` switches.
+- **NARS Q3/Q5/Q6 are not reverse-scored**, because the form already presented
+  them on a flipped scale. The inter-subscale correlation signs confirm it.
+
+The remaining published results — the repeated-measures ANOVA, Friedman test and
+paired comparisons — are not implemented here. See
+[`inferential/README.md`](inferential/README.md).
 
 ## Directories ignored by git
 

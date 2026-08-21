@@ -1,0 +1,17 @@
+NARS items in form order (Nomura et al., 2006).
+Subscales: S1 = Q4,7,8,9,10,12  S2 = Q1,2,11,13,14  S3 = Q3,5,6
+
+Q1	I would feel uneasy if robots really had emotions.
+Q2	Something bad might happen if robots developed into living beings.
+Q3	I would feel relaxed talking with robots.
+Q4	I would feel uneasy if I was given a job where I had to use robots.
+Q5	If robots had emotions, I would be able to make friends with them.
+Q6	I feel comforted being with robots that have emotions.
+Q7	The word “robot” means nothing to me.
+Q8	I would feel nervous operating a robot in front of other people.
+Q9	I would hate the idea that robots or artificial intelligences were making judgments about things.
+Q10	I would feel very nervous just standing in front of a robot.
+Q11	I feel that if I depend on robots too much, something bad might happen.
+Q12	I would feel paranoid talking with a robot.
+Q13	I am concerned that robots would be a bad influence on children.
+Q14	I feel that in the future society will be dominated by robots.

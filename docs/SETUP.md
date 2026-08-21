@@ -9,15 +9,46 @@ Package Manager resolves everything automatically: Meta XR SDK 81.0.0, OpenXR,
 URP/HDRP, Input System, AI Navigation, Newtonsoft JSON, and the URDF Importer
 from its git URL.
 
+Verified on a clean machine: a fresh import rebuilds `Library/` from scratch,
+resolves all 43 packages, and compiles 171 assemblies including
+`Assembly-CSharp.dll`. The only warnings are two unused private fields in
+`TrajectoryPlayer.cs`.
+
+### First launch: accept the API update prompt
+
+Meta XR SDK 81.0.0 ships code written against `UnityEngine.PhysicMaterial`,
+which Unity 6 renamed to `PhysicsMaterial`. On first import Unity shows an
+**"API Update Required"** dialog. **Click "I Made a Backup, Go Ahead!"** — the
+Script Updater patches the SDK's own files and everything compiles.
+
+If you decline, the Meta audio assemblies fail with `CS0619`/`CS1503` errors and
+the project will not build. Nothing in this repository is at fault, and no
+first-party code is touched — only Meta's package cache, which is regenerated
+and gitignored.
+
+For CI or headless imports, pass `-accept-apiupdate` to skip the prompt:
+
+```bash
+Unity.exe -batchmode -quit -nographics \
+  -projectPath /path/to/repo -logFile - -accept-apiupdate
+```
+
 The study *logic* is fully intact — trial sequencing, questionnaire UI,
 trajectory playback, data output. What is missing is **art**.
 
 ## What is missing and why
 
-`Assets/Scenes/SampleScene.unity` references 23 assets across five commercial
-packs that cannot be redistributed. On first open you will see missing-mesh
-placeholders where pedestrians, buildings, trees and terrain detail belong.
+`Assets/Scenes/SampleScene.unity` references assets across five commercial packs
+that cannot be redistributed. On first open you will see roughly 50
+`Missing Prefab` console errors where pedestrians, buildings and trees belong.
 That is expected, not a broken clone.
+
+The complete expected-missing list is in the
+[README](../README.md#what-a-clone-without-the-packs-looks-like). In short:
+pedestrians `0`–`5`, `building_*`, and the tree species. **The Toyota HSR robot
+parts ship with this repository** — if `base`, `torso`, `head_pan`, `arm_flex`,
+`palm`, `laser` or `rgbd` appear as missing, something is genuinely wrong and is
+worth reporting.
 
 ### The five asset packs
 
@@ -26,14 +57,37 @@ folder names matter.
 
 | Pack | Install to | Where to get it |
 |---|---|---|
-| **Renderpeople** rigged scans: `rp_manuel_rigged_001`, `rp_nathan_rigged_003`, `rp_sophia_rigged_003` | `Assets/RP_Character/` | [renderpeople.com](https://renderpeople.com/) (commercial) |
+| **Renderpeople** rigged scans (3 models, see below) | `Assets/RP_Character/` | [renderpeople.com](https://renderpeople.com/) (commercial, per-model) |
 | **(HDRP) NYC-Like City Buildings Set (PBR)** | `Assets/(HDRP) NYC-Like City Buildings Set (PBR)/` | Unity Asset Store |
 | **Realistic Tree** | `Assets/Realistic Tree/` | Unity Asset Store |
 | **GrassFlowers** | `Assets/GrassFlowers/` | Unity Asset Store |
 | **Terrain Tools Sample Asset Pack** | `Assets/TerrainSampleAssets/` | Unity Asset Store (**free**) |
 
-The Renderpeople pack also needs six animation FBXs (walking, idling) and their
-animator controllers, which ship with the rigged models.
+#### Renderpeople contents
+
+Three rigged scans plus their animation clips. Six pedestrians are built from
+three models by recolouring clothing (see the texture note below).
+
+```
+Assets/RP_Character/
+├── rp_manuel_rigged_001/      rp_manuel_rigged_001_u3d.fbx
+├── rp_nathan_rigged_003/      rp_nathan_rigged_003_u3d.fbx
+├── rp_sophia_rigged_003/      rp_sophia_rigged_003_u3d.fbx
+├── 00_Animations/             rp_nathan_animated_003_walking_u3d.fbx
+│                              rp_sophia_animated_003_idling_facial_u3d.fbx
+│                              rp_sophia_animated_003_standing_u3d.fbx
+│                              (+ manuel dancing variants, unused by the study)
+├── 00_Animations_Prefabs/     animator controllers
+└── 00_rp_master/              RP_Rigged_MasterShader.shader
+```
+
+The walking clip drives all six pedestrians; `AttributeAnimator` randomises each
+one's cycle phase so the crowd does not move in lockstep.
+
+#### Realistic Tree contents
+
+The scene places Ash, Birch, Chestnut, Spruce and Weeping Willow prefabs from
+`Prefabs/URP/`. Install the URP variants, not HDRP or Standard.
 
 > The NYC pack is the only reason HDRP 17.2.0 is a dependency of this URP
 > project. If you substitute a different environment, you can drop
@@ -53,30 +107,26 @@ own Renderpeople purchase, recolour the clothing regions, and assign them to
 that material. Exact appearance is not required to replicate the study design;
 only pedestrian distinguishability matters.
 
-### The robot
+### The robot — nothing to do
 
-`Assets/Models/hsr_description_v2/` **is** included: the BSD-licensed URDF and
-xacro files, plus Toyota's original meshes, redistributed unmodified as
-CC BY-NC-ND permits.
+`Assets/Models/hsr_description_v2/` is included in full: the BSD-licensed URDF
+and xacro files, Toyota's original meshes redistributed unmodified, **and** the
+Unity import output under `robots/` (per-link prefabs, extracted meshes,
+materials).
 
-What is *not* included is the Unity import output — extracted meshes, generated
-materials and the robot prefab — because NoDerivatives forbids sharing adapted
-material. Regenerate it locally:
+The import output ships deliberately. The study scene addresses those per-link
+prefabs by GUID, and re-running the URDF Importer generates fresh GUIDs that
+would not reconnect — you would get a scene with ~30 missing prefab references
+and no visible robot. See `THIRD_PARTY_NOTICES.md` for why redistributing the
+format-converted meshes is permitted under CC BY-NC-ND §2(a)(4).
 
-1. The URDF Importer package is already a project dependency.
-2. In the Project window, select
-   `Assets/Models/hsr_description_v2/urdf/hsr_v4.urdf`.
-3. Right-click → **Import Robot from Selected URDF file**.
-4. Accept the defaults; choose **Articulation Body** as the physics
-   representation (`TrajectoryPlayer` teleports the articulation root, so this
-   is required).
-5. Save the generated hierarchy as a prefab at `Assets/HSR/hsr.prefab`.
-6. In `SampleScene`, assign it to the `RobotMovement` and `HSRAnimateHead`
-   references, and confirm the head pan/tilt joints are wired.
-
-Takes about a minute. Both `Assets/HSR/` and
-`Assets/Models/hsr_description_v2/robots/` are `.gitignore`d so the output never
-gets committed back.
+If you want to re-import anyway — to change the robot, or regenerate against a
+different Unity version — the URDF Importer is already a project dependency:
+select `Assets/Models/hsr_description_v2/urdf/hsr_v4.urdf`, right-click →
+**Import Robot from Selected URDF file**, and choose **Articulation Body** as
+the physics representation (`TrajectoryPlayer` teleports the articulation root,
+so this is required). You will then need to re-wire the `RobotMovement` and
+`HSRAnimateHead` references in `SampleScene` by hand.
 
 ## Hardware and XR configuration
 
@@ -106,6 +156,24 @@ git config merge.unityyamlmerge.driver '"C:/Program Files/Unity/Hub/Editor/6000.
 
 Adjust the path to your Unity install. Without this, concurrent scene edits
 produce conflicts that are painful to resolve by hand.
+
+### Expected churn on first open
+
+Unity writes a few things on first import. These are machine-local and safe to
+ignore or discard:
+
+| What | Why |
+|---|---|
+| `Assets/HDRPDefaultResources/` appears | HDRP's global settings normally ship inside the NYC buildings pack. Without that pack Unity regenerates them. Gitignored. |
+| `ProjectSettings/GraphicsSettings.asset` shows as modified | Unity repoints the HDRP settings reference at the folder above. Discard it — the committed value points at the pack's copy, which resolves correctly once you install the pack. |
+| `Assets/Resources/OculusRuntimeSettings.asset` shows as modified | The Meta SDK stamps a per-install `telemetryProjectGuid`. Discard it; the repository ships it blank deliberately. |
+
+`git checkout -- ProjectSettings Assets/Resources` clears all of these. None
+affect how the project builds or runs.
+
+HDRP is in `Packages/manifest.json` only because the NYC pack was authored for
+it; this project renders with URP. If you substitute a different environment you
+can drop the HDRP dependency and this whole section stops applying.
 
 ## Verifying your setup
 

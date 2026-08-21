@@ -1,0 +1,25 @@
+participant_id,Q1: Behaviour Difference 3D,Q2: Behaviour DIfference 2D,Q3: Chosen Socially Acceptable Behaviour,Q4: Corrected Behaviour,Q5: Robot Movement and Social Cues Implications,Q6: Additional Feedback Cues
+P001,0,1,A,C,"head_nod:-1,more_distance:+1,close_distance:-1",comment:distance_becomes_issue_when_on_leftmost_side
+P002,1,0,A,A,"head_nod:+1,more_distance:+1,close_distance:-1",
+P003,1,1,B,A,head_nod:+1,
+P004,1,1,B,B,"head_nod:0,more_distance:0,close_distance:0",
+P005,1,0,B,B,"head_nod:-1,more_distance:+1,close_distance:-1",comment:more_anticipation
+P006,1,0,C,C,"head_nod:-1,more_distance:+1,close_distance:-1",comment:pay_for_study
+P007,1,0,B,B,close_distance:-1,
+P008,1,1,A,A,"head_nod:-1,close_distance:-1,more_distance:+1",
+P009,1,0,A,C,"head_nod:+1,more_distance:+1",comment:head_nod_could_be_cue_for_preferred_direction
+P010,1,1,A,C,"head_nod:+1,close_distance:-1",
+P011,0,1,A,A,"head_nod:+1,head_nod_timing:+1",comment:different_positioning_in_group_makes_closer_path_feel_safe
+P012,1,1,B,A,"head_nod:+1,more_distance:+1,close_distance:-1",comment:more_anticipation
+P014,0,0,A,C,"more_distance:+1,head_nod:+1",comment:more_anticipation
+P015,1,1,A,C,"head_nod:+1,head_nod_timing:+1,close_distance:-1",comment:more_anticipation
+P016,1,1,A,A,"head_nod:+1,head_nod_timing:+1",
+P018,1,0,A,A,"head_nod:+1,more_distance:+1,close_distance:-1","comment:more_distance_preferred,comment:head_nod_greeting_positive"
+P019,0,0,A,A,"head_nod:+1,more_distance:+1,close_distance:-1","comment:more_anticipation,comment:robot_model_is_friendly"
+P020,1,0,A,A,"head_nod:+1,more_distance:+1,close_distance:-1",
+P021,1,0,B,A,"head_nod:+1,close_distance:-1",comment:more_anticipation_likable_for_introverts
+P023,0,1,B,B,"head_nod:-1,more_distance:+1,close_distance:-1",
+P024,1,0,C,C,head_nod:+1,comment:more_anticipation
+P025,1,1,B,A,"head_nod:+1,more_distance:+1,close_distance:-1",comment:2D_safety_not_align_with_3D
+P026,1,0,B,B,head_nod:-1,
+P027,0,0,B,A,"head_nod:+1,more_distance:+1",

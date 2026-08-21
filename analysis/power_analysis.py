@@ -50,7 +50,7 @@ print("=" * 70)
 print(f"\nDesign: {n_trajectories} Trajectories × {n_viewpoints} Viewpoints")
 print(f"Assumed correlation between measures: {assumed_correlation}")
 print(f"Target power: {power}, Alpha: {alpha}")
-print(f"\nUsing William's Design (Balanced Latin Square) - multiple of 6")
+print(f"\nUsing William's Design (Balanced Latin Square) - multiple of {n_conditions}")
 print("\n" + "-" * 70)
 print(f"{'Effect':<12} | {'Effect Size':<12} | {'Adjusted f':<12} | {'Sample Size':<12}")
 print("-" * 70)
@@ -80,8 +80,11 @@ for effect_name, df_effect in [
         else:  # Interaction
             k_groups = n_trajectories * n_viewpoints
         
-        # Use iterative approach to find required N
-        n_participants = 6  # Start with minimum for William's design
+        # Use iterative approach to find required N. The Williams design has one
+        # sequence per condition, so a balanced sample is a multiple of
+        # n_conditions (9 here) -- not of 6, which belonged to the earlier
+        # two-trajectory version of this study.
+        n_participants = n_conditions
         current_power = 0
         
         while current_power < power and n_participants < 500:
@@ -103,7 +106,7 @@ for effect_name, df_effect in [
                 current_power = 0
             
             if current_power < power:
-                n_participants += 6  # Increment by 6 for William's design
+                n_participants += n_conditions
         
         results[effect_name][f] = n_participants
         print(f"{effect_name:<12} | {f:<12.2f} | {f_adjusted:<12.2f} | {n_participants:<12}")
@@ -177,4 +180,4 @@ print(f"  - Large effect (f=0.40): N = {results['Interaction'][0.40]} participan
 print(f"\nNote: These estimates assume correlation between measures = {assumed_correlation}")
 print("Lower correlation → need more participants")
 print("Higher correlation → need fewer participants")
-print("\nAll sample sizes are multiples of 6 for William's Design compatibility.")
+print(f"\nAll sample sizes are multiples of {n_conditions} for William's Design compatibility.")

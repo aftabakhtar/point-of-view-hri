@@ -1,0 +1,25 @@
+participant_id,age,gender,education,field_of_study,prior_robot_experience,mobile_robot_familiarity,vr_experience
+P001,27,Female,Graduate,STEM,Very Limited,1,Occasionally
+P002,36,Male,Graduate,STEM,None,1,Never
+P003,28,Male,Undergraduate,STEM,Extensive,5,Occasionally
+P004,35,Female,Graduate,STEM,None,1,Never
+P005,27,Male,Undergraduate,STEM,Some,4,Occasionally
+P006,23,Male,Undergraduate,STEM,Some,3,Never
+P007,29,Female,Graduate,STEM,Some,4,Occasionally
+P008,24,Male,Graduate,STEM,Very Limited,2,Occasionally
+P009,28,Male,Undergraduate,STEM,Very Limited,4,Occasionally
+P010,30,Male,Graduate,non-STEM,Very Limited,2,Never
+P011,34,Male,Graduate,STEM,Some,3,Never
+P012,22,Male,High school,STEM,Extensive,3,Frequently
+P014,26,Male,Graduate,STEM,Extensive,5,Occasionally
+P015,25,Male,Undergraduate,STEM,None,2,Never
+P016,27,Female,Graduate,STEM,Very Limited,1,Occasionally
+P018,26,Female,Graduate,STEM,None,2,Occasionally
+P019,22,Male,Undergraduate,STEM,Very Limited,2,Occasionally
+P020,26,Male,Graduate,STEM,Some,4,Occasionally
+P021,25,Male,Undergraduate,STEM,Extensive,4,Occasionally
+P023,29,Female,Graduate,STEM,None,1,Occasionally
+P024,26,Male,Undergraduate,STEM,Very Limited,3,Occasionally
+P025,28,Female,Undergraduate,non-STEM,None,2,Never
+P026,26,Male,Undergraduate,STEM,Very Limited,3,Occasionally
+P027,26,Male,Undergraduate,STEM,Some,3,Occasionally

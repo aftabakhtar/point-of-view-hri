@@ -22,17 +22,78 @@ model. Everything else in `Assets/Scripts/`, `analysis/` and `docs/` is MIT.
 | TextMesh Pro essentials | `Assets/TextMesh Pro/` | Unity Companion License | Includes Liberation Sans under SIL OFL (`Fonts/LiberationSans - OFL.txt`) and EmojiOne sprites under their own terms (`Sprites/EmojiOne Attribution.txt`). |
 | Meta Interaction SDK UI themes | `Assets/UI Themes/` | Meta SDK licence | Sample theme assets copied from the Meta XR SDK. |
 
-### On the HSR meshes and derivative works
+### On the HSR meshes and format conversion
 
 The `.dae`, `.stl`, `.obj`, `.mtl` and `.png` files under `hsr_meshes/` are
 Toyota's own originals and are shipped unchanged, which CC BY-NC-ND permits for
 non-commercial use with attribution.
 
-What the licence does **not** permit is redistributing *adapted* material. Unity's
-URDF Importer produces exactly that — extracted `.asset` meshes, generated `.mat`
-materials and `.prefab` hierarchies. Those artefacts are therefore **excluded**
-from this repository and `.gitignore`d. You generate them locally in a few
-seconds; see `docs/SETUP.md`.
+The repository also ships Unity's URDF-Importer output under
+`hsr_description_v2/robots/` — extracted `.asset` meshes, generated `.mat`
+materials and per-link `.prefab` files. These are **format conversions, not
+adaptations**: the geometry is unaltered, and CC BY-NC-ND 4.0 §2(a)(4)
+explicitly authorises "technical modifications necessary" to use a work in a
+given medium, stating that such modifications "never produce Adapted Material".
+Importing a COLLADA mesh so a game engine can render it falls squarely within
+that.
+
+This matters practically as well as legally: the study scene addresses those
+per-link prefabs by GUID. Regenerating them locally produces fresh GUIDs that
+would not reconnect, leaving the robot missing from the scene. They have to ship
+for the scene to work.
+
+The NonCommercial term still applies to all of it — see the warning at the top
+of this file.
+
+### Attribution and modification notice (CC BY-NC-ND 4.0 §3(a))
+
+**Licensed Material:** Toyota HSR 3D meshes, from the ROS package `hsr_meshes`
+(part of `hsr_description` v1.1.0).
+
+**Creator and copyright:** © Toyota Motor Corporation. Package maintainers and
+authors per `Assets/Models/hsr_description_v2/package.xml`: Koji Terada,
+Akiyoshi Ochiai, Takeshita, Nishino, Murase, Mori.
+
+**Licence:** Creative Commons Attribution-NonCommercial-NoDerivatives 4.0
+International (CC BY-NC-ND 4.0).
+Full text: <https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode>
+Summary: <https://creativecommons.org/licenses/by-nc-nd/4.0/>
+The licence text as supplied by the licensor is retained verbatim at
+`Assets/Models/hsr_description_v2/hsr_meshes/LICENSE.txt`, together with the
+licensor's own `README.md`.
+
+**Disclaimer of warranties:** as stated in §5 of the licence text above. The
+Licensed Material is provided as-is, without warranties of any kind.
+
+**Indication of modification** — required by §3(a)(1)(B):
+
+> The mesh geometry has **not** been modified. No vertices, topology, materials
+> or textures have been altered, added or removed.
+>
+> The meshes have been **format-converted** for use in the Unity engine, using
+> Unity's URDF Importer (Apache-2.0). This produced `.asset` files under
+> `hsr_description_v2/robots/hsr_meshes/`, which are Unity's binary
+> serialisation of the identical geometry supplied in the licensor's `.dae`,
+> `.obj` and `.stl` files. Those originals are also redistributed here,
+> unaltered, so the conversion can be verified against them.
+>
+> The accompanying `.mat` and `.prefab` files are **not** derived from the
+> Licensed Material. They are separately authored engine metadata — shader and
+> colour parameters, and transform hierarchies — that reference the meshes by
+> identifier.
+>
+> This conversion is asserted to fall under §2(a)(4) of the licence, which
+> authorises "technical modifications necessary" to exercise the Licensed
+> Rights in a given medium and provides that such modifications "never produce
+> Adapted Material".
+
+**No endorsement:** nothing here implies that Toyota Motor Corporation endorses
+this project or its use of the Licensed Material (§2(b)(3)).
+
+Downstream users: the meshes reach you under CC BY-NC-ND, not under this
+repository's MIT licence. You may redistribute them unmodified for
+non-commercial purposes with the attribution above; you may not share modified
+versions.
 
 ---
 

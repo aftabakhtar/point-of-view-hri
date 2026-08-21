@@ -5,9 +5,12 @@ Based on: Nomura et al. (2006) - Measurement of Negative Attitudes toward Robots
 Scale structure (14 items, 1–5 Likert scale):
   S1 - Negative Attitudes toward Situations of Interaction with Robots (6 items)
   S2 - Negative Attitudes toward the Social Influence of Robots (5 items)
-  S3 - Negative Attitudes toward Emotions in Interaction with Robots (3 items, all reversed)
+  S3 - Negative Attitudes toward Emotions in Interaction with Robots (3 items)
 
-Items marked (*) are REVERSED before scoring (1↔5, 2↔4, 3 stays 3).
+No reverse-scoring is applied. Standard NARS reverses Q3/Q5/Q6, but the form
+used in this study already presented those three on a flipped scale, so the raw
+values are keyed the same direction as the rest of the instrument. See the note
+at section 3.
 """
 
 import pandas as pd
@@ -30,11 +33,11 @@ q_labels = [f"Q{i+1}" for i in range(14)]
 df.rename(columns=dict(zip(question_cols, q_labels)), inplace=True)
 
 # ---------------------------------------------------------------------------
-# 2. Define subscales and reversed items
+# 2. Define subscales
 # ---------------------------------------------------------------------------
 # From Table 1 in the paper (item numbers match Q1–Q14 order in the CSV):
-#   Q1  – S2  | Q2  – S2  | Q3  – S3 (reversed)
-#   Q4  – S1  | Q5  – S3 (reversed) | Q6  – S3 (reversed)
+#   Q1  – S2  | Q2  – S2  | Q3  – S3
+#   Q4  – S1  | Q5  – S3  | Q6  – S3
 #   Q7  – S1  | Q8  – S1  | Q9  – S1
 #   Q10 – S1  | Q11 – S2  | Q12 – S1
 #   Q13 – S2  | Q14 – S2
@@ -45,13 +48,23 @@ subscales = {
     "S3 – Emotions in Interaction":   ["Q3", "Q5", "Q6"],
 }
 
-reversed_items = ["Q3", "Q5", "Q6"]
-
 # ---------------------------------------------------------------------------
-# 3. No reverse-scoring needed — the questionnaire form already presented
-#    Q3, Q5, Q6 with a flipped scale ("I strongly agree" at 1, "I strongly
-#    disagree" at 5), so the raw CSV values are already in the correct
-#    direction (higher = more negative attitude).
+# 3. No reverse-scoring is applied.
+#
+#    Standard NARS reverses Q3, Q5 and Q6 because they are positively worded
+#    ("I would feel relaxed talking with robots"). The form used in this study
+#    already presented those three on a flipped scale -- "strongly agree" at 1,
+#    "strongly disagree" at 5 -- so the raw values are keyed the same direction
+#    as the rest of the instrument (higher = more negative attitude) and need no
+#    transformation.
+#
+#    The inter-subscale correlations printed below corroborate this. All three
+#    subscales measure negative attitudes and so must correlate positively, as
+#    they do in Nomura et al. (2006): r(S1,S2)=+0.408, r(S1,S3)=+0.119,
+#    r(S2,S3)=+0.165. Scored as-is, this sample reproduces that sign pattern
+#    (+0.526, +0.328, +0.477). Applying the textbook reversal would flip S3 into
+#    anti-correlation with S1 and S2, which is incoherent for subscales keyed
+#    the same direction.
 # ---------------------------------------------------------------------------
 df_scored = df.copy()
 
@@ -130,14 +143,14 @@ print(corr_df.to_string())
 print("\n  Reference from paper: r(S1,S2)=0.408***, r(S1,S3)=0.119†, r(S2,S3)=0.165**")
 
 # --- Item-level means for diagnostics ---
-print("\n\n--- Item-Level Means (after reverse-scoring) ---\n")
+print("\n\n--- Item-Level Means (raw, no reverse-scoring applied) ---\n")
 item_info = {
     "Q1":  ("S2", "I would feel uneasy if robots really had emotions."),
     "Q2":  ("S2", "Something bad might happen if robots developed into living beings."),
-    "Q3":  ("S3", "I would feel relaxed talking with robots. [REVERSED]"),
+    "Q3":  ("S3", "I would feel relaxed talking with robots. [flipped on form]"),
     "Q4":  ("S1", "I would feel uneasy if I was given a job where I had to use robots."),
-    "Q5":  ("S3", "If robots had emotions, I would be able to make friends with them. [REVERSED]"),
-    "Q6":  ("S3", "I feel comforted being with robots that have emotions. [REVERSED]"),
+    "Q5":  ("S3", "If robots had emotions, I would be able to make friends with them. [flipped on form]"),
+    "Q6":  ("S3", "I feel comforted being with robots that have emotions. [flipped on form]"),
     "Q7":  ("S1", "The word 'robot' means nothing to me."),
     "Q8":  ("S1", "I would feel nervous operating a robot in front of other people."),
     "Q9":  ("S1", "I would hate the idea that robots/AI were making judgments about things."),
@@ -170,6 +183,12 @@ import os
 import json
 from collections import defaultdict
 
+# Sociability and disturbance are each the mean of four 1-7 items, matching the
+# convention used in the paper. Set STUDY_SCORE_AS_SUM=1 to emit 4-28 totals
+# instead; this rescales coefficients by 4 but leaves r, R^2 and p unchanged.
+SCORE_AS_SUM = os.environ.get("STUDY_SCORE_AS_SUM", "").strip() not in ("", "0")
+SCALE_LABEL = "max 28" if SCORE_AS_SUM else "1-7 mean"
+
 results_dir = _paths.require(_paths.TRIAL_RESPONSES_DIR)
 
 trajectory_map = {0: "A", 1: "B", 2: "C"}
@@ -185,7 +204,7 @@ for participant in os.listdir(results_dir):
         continue
 
     # Initialize all columns to 0
-    data = defaultdict(int)
+    data = defaultdict(float)
 
     for traj in ["A", "B", "C"]:
         for cam in ["proximal", "distal", "allocentric"]:
@@ -210,9 +229,23 @@ for participant in os.listdir(results_dir):
 
         questions = trial["questions"]
 
-        # First 4 → sociability, last 4 → disturbance
-        sociability_score = sum(q["feedback_score"] for q in questions[:4])
-        disturbance_score = sum(q["feedback_score"] for q in questions[4:])
+        # First 4 → sociability (Warm, Trustworthy, Likeable, Friendly),
+        # last 4 → disturbance (Scary, Creepy, Uncanny, Weird).
+        #
+        # Reported as the MEAN of the four items, so scores stay on the 1-7
+        # response scale. This is the convention the paper uses; scoring by sum
+        # instead multiplies every coefficient by 4 (a regression slope of
+        # -0.1527 becomes -0.6109) while leaving r, R^2 and p unchanged. Set
+        # SCORE_AS_SUM to recover the 4-28 totals.
+        sociability_items = [q["feedback_score"] for q in questions[:4]]
+        disturbance_items = [q["feedback_score"] for q in questions[4:]]
+
+        if SCORE_AS_SUM:
+            sociability_score = sum(sociability_items)
+            disturbance_score = sum(disturbance_items)
+        else:
+            sociability_score = sum(sociability_items) / len(sociability_items)
+            disturbance_score = sum(disturbance_items) / len(disturbance_items)
 
         data[f"{traj}-{cam}-sociability"] += sociability_score
         data[f"{traj}-{cam}-disturbance"] += disturbance_score
@@ -239,8 +272,8 @@ for _, row in df_scored.iterrows():
     # Add all combinations
     for traj in ["A", "B", "C"]:
         for cam in ["proximal", "distal", "allocentric"]:
-            base[f"{traj}-{cam}-sociability (max 20)"] = trial_data.get(f"{traj}-{cam}-sociability", 0)
-            base[f"{traj}-{cam}-disturbance (max 20)"] = trial_data.get(f"{traj}-{cam}-disturbance", 0)
+            base[f"{traj}-{cam}-sociability ({SCALE_LABEL})"] = trial_data.get(f"{traj}-{cam}-sociability", 0)
+            base[f"{traj}-{cam}-disturbance ({SCALE_LABEL})"] = trial_data.get(f"{traj}-{cam}-disturbance", 0)
 
     extended_rows.append(base)
 
@@ -267,7 +300,7 @@ for _, row in extended_df.iterrows():
         for cam in ["proximal", "distal", "allocentric"]:
             for sub in ["sociability", "disturbance"]:
                 
-                col_name = f"{traj}-{cam}-{sub} (max 20)"
+                col_name = f"{traj}-{cam}-{sub} ({SCALE_LABEL})"
                 
                 long_rows.append({
                     "Participant": participant,

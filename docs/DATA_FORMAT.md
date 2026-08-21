@@ -171,7 +171,30 @@ subscale:
 | `Trajectory` | `A`, `B`, `C` |
 | `Camera` | `proximal` (ped 3), `distal` (ped 5), `allocentric` (100) |
 | `Subscale` | NARS `S1`/`S2`/`S3`, or `sociability` / `disturbance` |
-| `Score` | Summed item score |
+| `Score` | NARS subscales: summed item score. Sociability/disturbance: **mean** of the four constituent items, on the 1–7 response scale |
+
+### Scoring convention for sociability and disturbance
+
+Sociability is the mean of items 1–4 (Warm, Trustworthy, Likeable, Friendly);
+disturbance is the mean of items 5–8 (Scary, Creepy, Uncanny, Weird). Means
+rather than sums, so scores stay on the 1–7 scale the participants actually saw
+— this is the convention used in the paper.
+
+The distinction matters when reproducing published coefficients. Scoring by sum
+instead multiplies every regression slope by 4 while leaving `r`, `R²` and `p`
+untouched, so a mis-scaled replication looks like a *partial* failure rather
+than an obvious one:
+
+| | `b` | `r` | `R²` | `p` |
+|---|---|---|---|---|
+| Mean (default, as in the paper) | **−0.1527** | −0.6226 | 0.3877 | 0.0012 |
+| Sum | −0.6109 | −0.6226 | 0.3877 | 0.0012 |
+
+(S1 predicting mean sociability, N = 24.)
+
+Set `STUDY_SCORE_AS_SUM=1` to emit 4–28 totals instead. The column labels in
+`extended_nars_results.csv` change accordingly (`1-7 mean` vs `max 28`) so the
+two are never confused.
 
 This is the frame a repeated-measures model would consume. See
 `analysis/inferential/README.md`.

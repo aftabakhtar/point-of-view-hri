@@ -1,0 +1,82 @@
+{
+  "participant_id": "P021",
+  "trial_id": 8,
+  "trajectory_id": 2,
+  "camera_type": "top_down",
+  "camera_target_ped_id": 100,
+  "feedback_duration_seconds": 29.5834961,
+  "questions": [
+    {
+      "question_id": 1,
+      "question_text": "Using the scale provided, how closely is the word <b><u>Warm</u></b> \nassociated with the robot's behaviour?",
+      "scale_labels": [
+        "Not at\nAll",
+        "Totally"
+      ],
+      "feedback_score": 4
+    },
+    {
+      "question_id": 2,
+      "question_text": "Using the scale provided, how closely is the word <b><u>Trustworthy</u></b> \nassociated with the robot's behaviour?",
+      "scale_labels": [
+        "Not at\nAll",
+        "Totally"
+      ],
+      "feedback_score": 4
+    },
+    {
+      "question_id": 3,
+      "question_text": "Using the scale provided, how closely is the word <b><u>Likeable</u></b> \nassociated with the robot's behaviour?",
+      "scale_labels": [
+        "Not at\nAll",
+        "Totally"
+      ],
+      "feedback_score": 3
+    },
+    {
+      "question_id": 4,
+      "question_text": "Using the scale provided, how closely is the word <b><u>Friendly</u></b> \nassociated with the robot's behaviour?",
+      "scale_labels": [
+        "Not at\nAll",
+        "Totally"
+      ],
+      "feedback_score": 4
+    },
+    {
+      "question_id": 5,
+      "question_text": "Using the scale provided, how closely is the word <b><u>Scary</u></b> \nassociated with the robot's behaviour?",
+      "scale_labels": [
+        "Not at\nAll",
+        "Totally"
+      ],
+      "feedback_score": 2
+    },
+    {
+      "question_id": 6,
+      "question_text": "Using the scale provided, how closely is the word <b><u>Creepy</u></b> \nassociated with the robot's behaviour?",
+      "scale_labels": [
+        "Not at\nAll",
+        "Totally"
+      ],
+      "feedback_score": 3
+    },
+    {
+      "question_id": 7,
+      "question_text": "Using the scale provided, how closely is the word <b><u>Uncanny</u></b> \nassociated with the robot's behaviour?",
+      "scale_labels": [
+        "Not at\nAll",
+        "Totally"
+      ],
+      "feedback_score": 4
+    },
+    {
+      "question_id": 8,
+      "question_text": "Using the scale provided, how closely is the word <b><u>Weird</u></b> \nassociated with the robot's behaviour?",
+      "scale_labels": [
+        "Not at\nAll",
+        "Totally"
+      ],
+      "feedback_score": 4
+    }
+  ]
+}
