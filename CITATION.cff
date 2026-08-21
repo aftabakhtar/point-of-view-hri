@@ -28,7 +28,7 @@ keywords:
   - robot trajectory evaluation
   - perspective taking
 preferred-citation:
-  type: article
+  type: conference-paper
   title: "Point of View: How Perspective Affects Perceived Robot Sociability"
   authors:
     - given-names: Subham
@@ -40,9 +40,15 @@ preferred-citation:
     - given-names: Maren
       family-names: Bennewitz
   year: 2026
-  journal: arXiv preprint
+  collection-title: >-
+    Proceedings of the IEEE International Conference on Robot and Human
+    Interactive Communication (RO-MAN)
+  conference:
+    name: >-
+      IEEE International Conference on Robot and Human Interactive
+      Communication (RO-MAN)
   identifiers:
     - type: other
       value: "arXiv:2603.28272"
-      description: arXiv preprint identifier
+      description: arXiv preprint of this paper
   url: "https://arxiv.org/abs/2603.28272"
