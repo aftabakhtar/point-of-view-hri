@@ -214,5 +214,5 @@ restricts commercial use — read
 
 ## Acknowledgements
 
-Developed at the [Humanoid Robots Lab](https://humanoids.cs.uni-bonn.de/),
+Developed at the [Humanoid Robots Lab](https://www.hrl.uni-bonn.de/),
 University of Bonn. The robot model is the Toyota Human Support Robot (HSR).
