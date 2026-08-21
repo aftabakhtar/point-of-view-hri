@@ -144,6 +144,27 @@ configuration and have not been validated.
 Hand, body, face and eye tracking are all disabled. The study needs only head
 pose and two controllers.
 
+## Windows: enable long paths before cloning
+
+Windows limits paths to 260 characters by default. This repository's deepest
+file is 99 characters, so a clone into a normal location is fine — but Unity's
+generated `Library/` folder routinely exceeds the limit, and cloning into a
+deeply nested directory will fail with `Filename too long` and an incomplete
+checkout.
+
+Enable long-path support once:
+
+```bash
+git config --global core.longpaths true
+```
+
+On Windows 10 1607+ you may also need the OS-level setting: Group Policy →
+Computer Configuration → Administrative Templates → System → Filesystem →
+**Enable Win32 long paths**.
+
+If a clone already failed this way, `git restore --source=HEAD :/` completes the
+checkout after enabling the setting.
+
 ## Recommended git configuration
 
 The repository ships a `.gitattributes` that routes Unity YAML through Unity's
