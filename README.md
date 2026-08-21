@@ -8,15 +8,27 @@ configuration tooling and analysis scripts behind the paper.
 > Subham Agrawal, Aftab Akhtar, Nils Dengler, Maren Bennewitz
 > [arXiv:2603.28272](https://arxiv.org/abs/2603.28272)
 
+![The study scene from above: a Toyota HSR robot crossing a paved path between two groups of three pedestrians](docs/images/scene-top-down.jpg)
+
+<sub>The **allocentric** condition. Participants watch this top-down view of the
+robot passing between two groups of pedestrians — the same view a researcher
+would use to evaluate a navigation policy. The environment and pedestrian assets
+shown are commercial and **not included** in this repository; see
+[docs/SETUP.md](docs/SETUP.md).</sub>
+
 Robot navigation policies are usually validated from a bird's-eye view. This
 platform asks whether that view is misleading: it replays **identical** robot
 trajectories from three perspectives and measures how the ratings shift.
 
-| Viewpoint | What the participant experiences |
-|---|---|
-| **Allocentric** | Seated in a projection room, watching a top-down render of the trajectory on a screen |
-| **Egocentric-proximal** | Standing in the crowd as the pedestrian the robot passes closest to |
-| **Egocentric-distal** | Standing in the crowd as a pedestrian further from the robot's path |
+| Viewpoint | What the participant experiences | Stimulus |
+|---|---|---|
+| **Allocentric** | Seated in a projection room, watching a top-down render of the trajectory on a screen | Pre-rendered video, e.g. [`our_w_nod_0_02.mp4`](Assets/StreamingAssets/User%20Study/Trajectories/our_w_nod_0_02.mp4) |
+| **Egocentric-proximal** | Standing in the crowd as the pedestrian the robot passes closest to | Live scene, camera on pedestrian 3 |
+| **Egocentric-distal** | Standing in the crowd as a pedestrian further from the robot's path | Live scene, camera on pedestrian 5 |
+
+The three allocentric stimulus videos live in
+[`Assets/StreamingAssets/User Study/Trajectories/`](Assets/StreamingAssets/User%20Study/Trajectories)
+— one per trajectory condition (A: with head nod, B: without, C: DWA baseline).
 
 Headline finding: trajectories that look sociable from above can be rated
 significantly more disturbing when experienced up close in first person — and a
